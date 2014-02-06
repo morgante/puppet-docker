@@ -17,4 +17,9 @@ class docker {
     mode      => 'ug+w',
     target    => "${docker::config::boot2dir}/boot2docker"
   }
+
+  exec { 'install docker client':
+    command => "curl -o ${docker::config::bin} ${docker::config::url}",
+    creates => $docker::config::bin
+  }
 }
