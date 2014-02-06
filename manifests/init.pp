@@ -12,8 +12,8 @@ class docker {
     source    => 'steeve/boot2docker'
   }
 
-  file { "symlink_boot2docker:
-    path      => $docker::config::boot2bin
+  file { "symlink_boot2docker":
+    path      => $docker::config::boot2bin,
     ensure    => link,
     mode      => 'ug+w',
     target    => "${docker::config::boot2dir}/boot2docker"
@@ -23,13 +23,11 @@ class docker {
     command   => "${docker::config::boot2bin} init"
   }
 
-  exec { 'install_docker':
-    command   => "curl -o ${docker::config::bin} ${docker::config::url}",
-    creates   => $docker::config::bin
+  homebrew::tap { 'homebrew/binary':
+     before => Package['boxen/brews/docker']
   }
 
-  file { $docker::config::bin:
-    mode      => 'ug+w',
-    require   => Exec["retrieve_docker"]
+  package { 'boxen/brews/docker':
+    ensure    => 'docker'
   }
 }
