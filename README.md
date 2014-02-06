@@ -8,7 +8,7 @@ This module will install docker and boot2docker, enabling you to experiment with
 include docker
 ```
 
-You can start using Docker through the client by connecting to the basic [vm](steeve/boot2docker).
+You can start using Docker through the client by connecting to the basic [vm](http://github.com/steeve/boot2docker).
 
 ```
 boot2docker up
