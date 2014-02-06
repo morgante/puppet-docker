@@ -12,10 +12,15 @@ class docker {
     source    => 'steeve/boot2docker'
   }
 
-  file { $docker::config::boot2bin:
+  file { "symlink_boot2docker:
+    path      => $docker::config::boot2bin
     ensure    => link,
     mode      => 'ug+w',
     target    => "${docker::config::boot2dir}/boot2docker"
+  }
+
+  exec { 'init vm':
+    command   => "${docker::config::boot2bin} init"
   }
 
   exec { 'install_docker':
