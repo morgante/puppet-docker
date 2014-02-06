@@ -24,7 +24,7 @@ class docker {
   }
 
   file { $docker::config::bin:
-    mode      => 'ug+w'
-    require   => Exec["retrieve_docker"],
+    mode      => 'ug+w',
+    require   => Exec["retrieve_docker"]
   }
 }
