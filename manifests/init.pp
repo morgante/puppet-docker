@@ -20,7 +20,8 @@ class docker {
   }
 
   exec { 'init vm':
-    command   => "${docker::config::boot2bin} init"
+    command   => "${docker::config::boot2bin} init",
+    subscribe => File["symlink_boot2docker"]
   }
 
   homebrew::tap { 'homebrew/binary':
@@ -29,5 +30,10 @@ class docker {
 
   package { 'homebrew/binary/docker':
     ensure    => 'docker'
+  }
+
+  file { $docker::config::envfile:
+    content   => template('docker/env.sh.erb'),
+    require   => File[$boxen::config::envdir]
   }
 }
