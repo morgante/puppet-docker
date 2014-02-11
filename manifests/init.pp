@@ -28,7 +28,7 @@ class docker {
   }
 
   homebrew::tap { 'homebrew/binary':
-    before    => Package['homebrew/binary/docker']
+    before    => Package['docker']
   }
 
   package { 'docker':
