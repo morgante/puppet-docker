@@ -9,7 +9,7 @@ class docker {
 
   repository { 'boot2docker_repo':
     provider  => 'git',
-    source    => 'steeve/boot2docker'
+    source    => 'steeve/boot2docker',
     path      => $docker::config::boot2dir
   }
 
@@ -17,13 +17,13 @@ class docker {
     path      => $docker::config::boot2bin,
     ensure    => link,
     mode      => 'ug+w',
-    target    => "${docker::config::boot2dir}/boot2docker"
+    target    => "${docker::config::boot2dir}/boot2docker",
     require   => Repository["boot2docker_repo"]
   }
 
   exec { 'init vm':
     command   => "${docker::config::boot2bin} init",
-    onlyif    => "${docker::config::boot2bin} status | grep -c "does not exist""
+    onlyif    => "${docker::config::boot2bin} status | grep -c 'does not exist'",
     require   => File["symlink_boot2docker"]
   }
 
