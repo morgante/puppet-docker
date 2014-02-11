@@ -7,9 +7,10 @@
 class docker {
   include docker::config
 
-  repository { $docker::config::boot2dir:
+  repository { 'boot2docker_repo':
     provider  => 'git',
     source    => 'steeve/boot2docker'
+    path      => $docker::config::boot2dir
   }
 
   file { "symlink_boot2docker":
@@ -17,11 +18,13 @@ class docker {
     ensure    => link,
     mode      => 'ug+w',
     target    => "${docker::config::boot2dir}/boot2docker"
+    require   => Repository["boot2docker_repo"]
   }
 
   exec { 'init vm':
     command   => "${docker::config::boot2bin} init",
-    subscribe => File["symlink_boot2docker"]
+    onlyif    => "${docker::config::boot2bin} status | grep -c "does not exist""
+    require   => File["symlink_boot2docker"]
   }
 
   homebrew::tap { 'homebrew/binary':
