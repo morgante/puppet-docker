@@ -32,7 +32,6 @@ class docker {
   }
 
   package { 'homebrew/binary/docker':
-    ensure    => 'docker',
     require   => Homebrew::Tap['homebrew/binary']
   }
 
